@@ -3,7 +3,7 @@ using System.Reflection;
 namespace Smudging.src.entity
 {
     /// <summary>
-    /// 自定义注解，用于定义路由与请求方式
+    /// 自定义标记，用于定义路由与请求方式
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ApiCustomAttribute : Attribute
