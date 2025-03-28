@@ -13,5 +13,5 @@
 
    `只支持 JSON 类型数据`
 
-更多信息，请访问 `Smudging.src.Controller` 命名空间下的所有 `api` 文件，  
+更多信息，请访问 `Smudging.src.Controller` 命名空间下的所有 api 文件，  
 程序通过扫描该命名空间下的 `ApiCustom` 标记进行工作。
