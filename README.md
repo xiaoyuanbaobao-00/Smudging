@@ -6,7 +6,12 @@
    > dotnet restore
 2. 运行项目：
     > dotnet run
-3. 访问 http://localhost:9902/welcome
+3. 访问 http://localhost:9902/welcome  
+   注意添加请求头: 
+   > Content-Type: application/json  
+   > X-Request-Level: 0
 
-更多信息，请访问 Smudging.src.Controller 命名空间下的所有api文件，
-程序通过扫描该命名空间下的 ApiCustom 标记进行工作。
+   `只支持 JSON 类型数据`
+
+更多信息，请访问 `Smudging.src.Controller` 命名空间下的所有 `api` 文件，  
+程序通过扫描该命名空间下的 `ApiCustom` 标记进行工作。
