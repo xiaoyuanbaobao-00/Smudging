@@ -1,6 +1,8 @@
-﻿using Smudging.src.entity;
+﻿using Smudging.src.CustomizeException;
+using Smudging.src.entity;
 using Smudging.src.Window;
 using System.Net;
+using System.Text;
 
 namespace Smudging.src.Server
 {
@@ -24,6 +26,11 @@ namespace Smudging.src.Server
         /// </summary>
         public static WinControls? CONTROLS = null;
 
+        /// <summary>
+        /// 窗体控制对象
+        /// </summary>
+        public static WebViewControls? WebControls = null;
+
         public HttpServer()
         {
             // 获取参数
@@ -45,7 +52,7 @@ namespace Smudging.src.Server
                 args = RemoveArrayIndexOf(args!, 0);
                 if (!int.TryParse(args[0], out port))
                 {
-                    //MyException.ErrorException("端口数据转换失败！");
+                    MyException.ErrorException("端口数据转换失败！");
                 }
             }
             else
@@ -72,7 +79,10 @@ namespace Smudging.src.Server
             return newArray;
         }
 
-        // 启动服务器
+        /// <summary>
+        /// 启动服务器
+        /// </summary>
+        /// <returns></returns>
         public async Task StartAsync()
         {
             listener.Start();
@@ -84,17 +94,31 @@ namespace Smudging.src.Server
             }
         }
 
-        // 处理请求
+        /// <summary>
+        /// 处理请求
+        /// </summary>
+        /// <param name="context"></param>
         private static void ProcessRequest(HttpListenerContext context)
         {
             // 获取请求和响应
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
+            // 检查 request.Url 是否为 null
+            if (request.Url == null)
+            {
+                // 返回错误响应
+                ProcessResponse(response, new ResponseBody(ResponseStatus.BAD_REQUEST, "Invalid request: URL is null"));
+                return;
+            }
+
+            // 获取请求路径
+            string requestPath = request.Url.AbsolutePath;
+
             // 设置 CORS 头
             response.Headers.Add("Access-Control-Allow-Origin", "*"); // 允许所有域名访问
             response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS");
-            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
             // 处理预检请求（OPTIONS）
             if (request.HttpMethod == "OPTIONS")
@@ -114,16 +138,6 @@ namespace Smudging.src.Server
                 return;
             }
 
-            // 检查 request.Url 是否为 null
-            if (request.Url == null)
-            {
-                // 返回错误响应
-                ProcessResponse(response, new ResponseBody(ResponseStatus.BAD_REQUEST, "Invalid request: URL is null"));
-                return;
-            }
-            // 获取请求路径
-            string requestPath = request.Url.AbsolutePath;
-
             Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}，请求路由：{requestPath}, 收到 JSON 数据: \n" + requestBody.Data);
 
             // 获取请求数据
@@ -132,7 +146,11 @@ namespace Smudging.src.Server
             HandleApi(request, response, requestPath, requestBody.Level, keyValuePairs);
         }
 
-        // 验证请求是否有效
+        /// <summary>
+        /// 验证请求是否有效
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         private static RequestBody VerifyRequest(HttpListenerRequest request)
         {
             // 创建请求体
@@ -154,7 +172,9 @@ namespace Smudging.src.Server
             return requestBody;
         }
 
-        // 停止服务器
+        /// <summary>
+        /// 停止服务器
+        /// </summary>
         public void Stop()
         {
             // 停止队列处理任务
@@ -165,7 +185,14 @@ namespace Smudging.src.Server
             listener.Close();
         }
 
-        // 处理API请求
+        /// <summary>
+        /// 处理API请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
+        /// <param name="requestPath"></param>
+        /// <param name="level"></param>
+        /// <param name="keyValuePairs"></param>
         private static void HandleApi(HttpListenerRequest request, HttpListenerResponse response, string requestPath, RequestLevel level, Dictionary<string, string> keyValuePairs)
         {
             // 外层响应体
@@ -188,7 +215,8 @@ namespace Smudging.src.Server
                 }
                 else if (RequestLevel.High == level)
                 { // 启动线程执行任务
-                    QueueProcessTask.StartThreadTask(() => {
+                    QueueProcessTask.StartThreadTask(() =>
+                    {
                         ProcessResponse(response, ResponseBody.MergeRespnseBody(resp, apiScanner, requestPath, requestMethod, keyValuePairs));
                     });
                     return;
@@ -213,9 +241,10 @@ namespace Smudging.src.Server
             response.ContentType = "application/json";
             string result = responseBody.ToJSONString();
             // 设置响应内容
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(result);
+            byte[] buffer = Encoding.UTF8.GetBytes(result);
             // 设置响应长度
             response.ContentLength64 = buffer.Length;
+            response.AddHeader("Access-Control-Allow-Origin", "*");
             // 写入响应
             using var output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);

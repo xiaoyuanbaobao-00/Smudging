@@ -5,9 +5,6 @@
         // 窗体
         private readonly Form _form = form;
 
-        // WebView2 控件
-        public static Microsoft.Web.WebView2.WinForms.WebView2? WebView;
-
         /// <summary>
         /// 显示窗体
         /// </summary>
@@ -55,7 +52,7 @@
         /// <summary>
         ///  窗口化状态
         /// </summary>
-        public void Normal()
+        public void Unminimize()
         {
             _form.InvokeIfRequired(() =>
             {
@@ -85,15 +82,61 @@
         }
 
         /// <summary>
-        /// 获取 WebView2 控件显示所需的 url
+        /// 获取窗体是否处于隐藏状态，true 隐藏，false 显示
         /// </summary>
-        /// <param name="url"></param>
-        public void SetWebSource(string url)
+        /// <returns>窗体是否隐藏</returns>
+        public bool IsVisible()
         {
-            WebView?.InvokeIfRequired(() =>
+            return _form.InvokeIfRequired(() => !_form.Visible);
+        }
+
+        /// <summary>
+        /// 窗体置顶
+        /// </summary>
+        public void TopMost() {
+            _form.InvokeIfRequired(() =>
             {
-                // 设置 WebView2 控件显示所需的 url
-                WebView.Source = new Uri(url);
+                _form.TopMost = true;
+            });
+        }
+
+        /// <summary>
+        /// 取消窗体置顶
+        /// </summary>
+        public void TopMostCancel() {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.TopMost = false;
+            });
+        }
+
+        /// <summary>
+        /// 激活窗体
+        /// </summary>
+        public void Activate() {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.Activate();
+            });
+        }
+
+        /// <summary>
+        /// 聚焦窗口
+        /// </summary>
+        public void SetFocus() {
+            _form.InvokeIfRequired(() =>
+            {
+                // 如果窗体处于最小化状态，则先将其恢复为正常状态
+                if(_form.WindowState == FormWindowState.Minimized) {
+                    _form.WindowState = FormWindowState.Normal;
+                }
+
+                // 显示窗体并置顶
+                _form.TopMost = true;
+                // 聚焦窗体
+                _form.Focus();
+                // 取消窗体置顶
+                _form.TopMost = false;
             });
         }
 

@@ -83,7 +83,7 @@ namespace Smudging.src.Server
                             RequestMethod requestMethod = methodAttribute.Method;
 
                             // 构建完整的路径
-                            string fullPath = MyRegex().Replace($"{classPath}{methodPath}".TrimEnd('/'), "/");
+                            string fullPath = MyRegex().Replace($"/smudging{classPath}{methodPath}".TrimEnd('/'), "/");
                             
                             Console.WriteLine($"扫描到路由：{fullPath}");
 

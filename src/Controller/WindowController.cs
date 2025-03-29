@@ -53,10 +53,10 @@ namespace Smudging.src.Controller
         /// 窗口化
         /// </summary>
         /// <returns></returns>
-        [ApiCustom("/normal", RequestMethod.GET)]
-        public ResponseBody Normal()
+        [ApiCustom("/unminimize", RequestMethod.GET)]
+        public ResponseBody Unminimize()
         {
-            HttpServer.CONTROLS?.Normal();
+            HttpServer.CONTROLS?.Unminimize();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
@@ -81,5 +81,55 @@ namespace Smudging.src.Controller
             HttpServer.CONTROLS?.SetTitle(title);
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
+
+        /// <summary>
+        /// 判断窗口是否隐藏
+        /// </summary>
+        /// <returns></returns>
+        [ApiCustom("/visible", RequestMethod.GET)]
+        public ResponseBody IsVisible() {
+            return new ResponseBody(ResponseStatus.OK, HttpServer.CONTROLS?.IsVisible(), "执行成功！");
+        }
+
+        /// <summary>
+        /// 置顶窗口
+        /// </summary>
+        /// <returns></returns>
+        [ApiCustom("/topmost", RequestMethod.GET)]
+        public ResponseBody TopMost() {
+            HttpServer.CONTROLS?.TopMost();
+            return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
+        }
+
+        /// <summary>
+        /// 取消置顶窗口
+        /// </summary>
+        /// <returns></returns>
+        [ApiCustom("/topmostcancel", RequestMethod.GET)]
+        public ResponseBody TopMostCancel() {
+            HttpServer.CONTROLS?.TopMostCancel();
+            return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
+        }
+
+        /// <summary>
+        /// 激活窗口
+        /// </summary>
+        /// <returns></returns>a
+        [ApiCustom("/activate", RequestMethod.GET)]
+        public ResponseBody Activate() {
+            HttpServer.CONTROLS?.Activate();
+            return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
+        }
+
+        /// <summary>
+        /// 聚焦窗口
+        /// </summary>
+        /// <returns></returns>a
+        [ApiCustom("/setfocus", RequestMethod.GET)]
+        public ResponseBody SetFocus() {
+            HttpServer.CONTROLS?.SetFocus();
+            return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
+        }
+        
     }
 }

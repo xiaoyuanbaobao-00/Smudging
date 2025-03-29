@@ -37,10 +37,11 @@
       redirect: 'follow'
    };
 
-   fetch("http://localhost:9902/webview/source", requestOptions)
+   fetch("http://localhost:9902/smudging/webview/source", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
    ```
 更多信息，请查看 `Smudging.src.Controller` 命名空间下的所有 api 文件，\
+`smudging` 永远是 api 请求的前缀，它是自动加上去的，如：`http://localhost:9902/smudging`\
 程序通过扫描该命名空间下的 `ApiCustom` 标记进行工作。

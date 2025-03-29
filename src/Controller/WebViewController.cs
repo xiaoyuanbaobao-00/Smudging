@@ -17,7 +17,7 @@ namespace Smudging.src.Controller
         [ApiCustom("/source", RequestMethod.GET)]
         public ResponseBody SetUrl(string url)
         {
-            HttpServer.CONTROLS?.SetWebSource(url);
+            HttpServer.WebControls?.SetWebSource(url);
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
     }

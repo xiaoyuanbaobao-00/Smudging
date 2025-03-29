@@ -55,7 +55,7 @@ namespace App
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(webView);
-            WinControls.WebView = webView;
+            WebViewControls.WebView = webView;
             Name = "Form1";
             Text = "Form";
             Load += Loading;
@@ -72,7 +72,9 @@ namespace App
             // 错误窗口标题
             MyException.WindowTitle = base.Text;
             WinControls winControls = new WinControls(this);
+            WebViewControls WebControls = new WebViewControls();
             HttpServer.CONTROLS = winControls;
+            HttpServer.WebControls = WebControls;
 
             Task.Run(async () =>
             {
