@@ -1,5 +1,5 @@
 # Smudging
-尝试使用 WinForms 通过网络协议操控的 WebView2 窗体  
+尝试使用 WinForms 通过网络协议操控的 WebView2 窗体\
 龟速开发中...
 
 ## 运行项目  
@@ -7,7 +7,7 @@
    > dotnet restore
 2. 运行项目：
     > dotnet run
-3. 访问控制，窗口加载页面
+3. 访问控制，窗口加载页面\
    注意 `必须` 添加请求头: 
    > Content-Type: application/json  
    > X-Request-Level: 0
@@ -42,5 +42,5 @@
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
    ```
-更多信息，请查看 `Smudging.src.Controller` 命名空间下的所有 api 文件，  
+更多信息，请查看 `Smudging.src.Controller` 命名空间下的所有 api 文件，\
 程序通过扫描该命名空间下的 `ApiCustom` 标记进行工作。
