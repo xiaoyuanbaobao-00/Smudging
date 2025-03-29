@@ -2,8 +2,10 @@
 {
     public class WinControls(Form form)
     {
+        // 窗体
         private readonly Form _form = form;
 
+        // WebView2 控件
         public static Microsoft.Web.WebView2.WinForms.WebView2? WebView;
 
         /// <summary>

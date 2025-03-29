@@ -4,7 +4,6 @@ namespace Smudging.src.Window
 {
     public class Apply
     {
-
         private readonly Form1 form;
 
         public Apply()
@@ -13,6 +12,5 @@ namespace Smudging.src.Window
             form = new();
             Application.Run(form);
         }
-
     }
 }

@@ -91,6 +91,19 @@ namespace Smudging.src.Server
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
+            // 设置 CORS 头
+            response.Headers.Add("Access-Control-Allow-Origin", "*"); // 允许所有域名访问
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEAD, PATCH, OPTIONS");
+            response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+
+            // 处理预检请求（OPTIONS）
+            if (request.HttpMethod == "OPTIONS")
+            {
+                response.StatusCode = ResponseStatus.OK;
+                response.Close();
+                return;
+            }
+
             // 创建请求体
             RequestBody requestBody = VerifyRequest(request);
 

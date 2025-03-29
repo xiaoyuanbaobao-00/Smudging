@@ -2,63 +2,84 @@ using Smudging.src.entity;
 using Smudging.src.Server;
 namespace Smudging.src.Controller
 {
-    [ApiCustom("/custom")]
-    public class CustomController {
+    [ApiCustom("/window")]
+    public class WindowController {
 
+        /// <summary>
+        /// 隐藏窗口
+        /// </summary>
+        /// <returns></returns>
         [ApiCustom("/hide", RequestMethod.GET)]
-        public ResponseBody hide()
+        public ResponseBody Hide()
         {
             HttpServer.CONTROLS?.Hide();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
+        /// <summary>
+        /// 显示窗口
+        /// </summary>
+        /// <returns></returns>
         [ApiCustom("/show", RequestMethod.GET)]
-        public ResponseBody show()
+        public ResponseBody Show()
         {
             HttpServer.CONTROLS?.Show();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
+        /// <summary>
+        /// 最大化窗口
+        /// </summary>
+        /// <returns></returns>
         [ApiCustom("/maximize", RequestMethod.GET)]
-        public ResponseBody maximize()
+        public ResponseBody Maximize()
         {
             HttpServer.CONTROLS?.Maximize();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
+        /// <summary>
+        /// 最小化窗口
+        /// </summary>
+        /// <returns></returns>
         [ApiCustom("/minimize", RequestMethod.GET)]
-        public ResponseBody minimize()
+        public ResponseBody Minimize()
         {
             HttpServer.CONTROLS?.Minimize();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
+        /// <summary>
+        /// 窗口化
+        /// </summary>
+        /// <returns></returns>
         [ApiCustom("/normal", RequestMethod.GET)]
-        public ResponseBody normal()
+        public ResponseBody Normal()
         {
             HttpServer.CONTROLS?.Normal();
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
 
-        [ApiCustom("/gettitle", RequestMethod.GET)]
-        public ResponseBody getTitle()
+        /// <summary>
+        /// 获取窗口标题
+        /// </summary>
+        /// <returns></returns>
+        [ApiCustom("/getitle", RequestMethod.GET)]
+        public ResponseBody GetTitle()
         {
             return new ResponseBody(ResponseStatus.OK, HttpServer.CONTROLS?.GetTitle(), "执行成功！");
         }
 
-        [ApiCustom("/settitle", RequestMethod.GET)]
-        public ResponseBody setTitle(string title)
+        /// <summary>
+        /// 设置窗口标题
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        [ApiCustom("/setitle", RequestMethod.GET)]
+        public ResponseBody SetTitle(string title)
         {
             HttpServer.CONTROLS?.SetTitle(title);
             return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
         }
-
-        [ApiCustom("/setwebsource", RequestMethod.GET)]
-        public ResponseBody setUrl(string url)
-        {
-            HttpServer.CONTROLS?.SetWebSource(url);
-            return new ResponseBody(ResponseStatus.OK, null, "执行成功！");
-        }
-
     }
 }
