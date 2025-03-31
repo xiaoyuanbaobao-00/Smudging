@@ -169,8 +169,13 @@ namespace Smudging.src.Server
                 try{
                     // 调用 api 方法
                     result = routeInfo.MethodInfo!.Invoke(routeInfo.Instance, methodArgs);
-                }catch(Exception e){
-                    return new ResponseBody(ResponseStatus.ERROR, null, e.Message);
+                }catch(TargetInvocationException e){    // 捕获异常
+                    string message = "";
+                    if(e.InnerException != null) {
+                        // 获取传播异常信息
+                        message = e.InnerException.Message;
+                    }
+                    return new ResponseBody(ResponseStatus.ERROR, null, message);
                 }
 
                 // 调用方法

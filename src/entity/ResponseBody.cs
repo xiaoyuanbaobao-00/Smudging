@@ -22,7 +22,7 @@ namespace Smudging.src.entity
         [JsonPropertyName("message")]
         public string Message { get; set; } = "执行成功！";
 
-        public ResponseBody(){}
+        public ResponseBody() { }
 
         public ResponseBody(int code, object? data, string message)
         {
@@ -62,16 +62,11 @@ namespace Smudging.src.entity
         /// <returns></returns>
         public static ResponseBody MergeRespnseBody(ResponseBody resp, ApiScanner apiScanner, string requestPath, RequestMethod requestMethod, Dictionary<string, string> keyValuePairs)
         {
-            try{
-                ResponseBody result = (ResponseBody)apiScanner.HandleRequest(requestPath, requestMethod, keyValuePairs);
-                resp.Data = result.Data;
-                resp.Code = result.Code;
-                resp.Message = result.Message;
-            }catch(Exception e)
-            {
-                resp.Code = ResponseStatus.ERROR;
-                resp.Message = e.Message;
-            }
+            // 调用 ApiScanner 的 HandleRequest 方法，执行 api 方法
+            ResponseBody result = (ResponseBody)apiScanner.HandleRequest(requestPath, requestMethod, keyValuePairs);
+            resp.Data = result.Data;
+            resp.Code = result.Code;
+            resp.Message = result.Message;
             return resp;
         }
     }

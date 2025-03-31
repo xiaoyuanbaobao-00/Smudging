@@ -42,5 +42,6 @@ namespace Smudging.src.Controller
             HttpServer.WebControls?.ExecuteScriptAsync(script);
             return new ResponseBody();
         }
+
     }
 }
