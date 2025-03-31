@@ -20,7 +20,9 @@ namespace Smudging.src.entity
         public object? Data { get; set; }
 
         [JsonPropertyName("message")]
-        public string Message { get; set; } = "OK";
+        public string Message { get; set; } = "执行成功！";
+
+        public ResponseBody(){}
 
         public ResponseBody(int code, object? data, string message)
         {
@@ -60,13 +62,16 @@ namespace Smudging.src.entity
         /// <returns></returns>
         public static ResponseBody MergeRespnseBody(ResponseBody resp, ApiScanner apiScanner, string requestPath, RequestMethod requestMethod, Dictionary<string, string> keyValuePairs)
         {
-            ResponseBody result = (ResponseBody)apiScanner.HandleRequest(requestPath, requestMethod, keyValuePairs);
-            resp.Data = result.Data;
-            if (result.Code != ResponseStatus.OK)
-            {
+            try{
+                ResponseBody result = (ResponseBody)apiScanner.HandleRequest(requestPath, requestMethod, keyValuePairs);
+                resp.Data = result.Data;
                 resp.Code = result.Code;
+                resp.Message = result.Message;
+            }catch(Exception e)
+            {
+                resp.Code = ResponseStatus.ERROR;
+                resp.Message = e.Message;
             }
-            resp.Message = result.Message;
             return resp;
         }
     }

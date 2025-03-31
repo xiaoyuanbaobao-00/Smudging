@@ -93,7 +93,8 @@
         /// <summary>
         /// 窗体置顶
         /// </summary>
-        public void TopMost() {
+        public void TopMost()
+        {
             _form.InvokeIfRequired(() =>
             {
                 _form.TopMost = true;
@@ -103,7 +104,8 @@
         /// <summary>
         /// 取消窗体置顶
         /// </summary>
-        public void TopMostCancel() {
+        public void TopMostCancel()
+        {
             _form.InvokeIfRequired(() =>
             {
                 _form.TopMost = false;
@@ -113,7 +115,8 @@
         /// <summary>
         /// 激活窗体
         /// </summary>
-        public void Activate() {
+        public void Activate()
+        {
             _form.InvokeIfRequired(() =>
             {
                 _form.Activate();
@@ -123,11 +126,13 @@
         /// <summary>
         /// 聚焦窗口
         /// </summary>
-        public void SetFocus() {
+        public void SetFocus()
+        {
             _form.InvokeIfRequired(() =>
             {
                 // 如果窗体处于最小化状态，则先将其恢复为正常状态
-                if(_form.WindowState == FormWindowState.Minimized) {
+                if (_form.WindowState == FormWindowState.Minimized)
+                {
                     _form.WindowState = FormWindowState.Normal;
                 }
 
@@ -137,6 +142,35 @@
                 _form.Focus();
                 // 取消窗体置顶
                 _form.TopMost = false;
+            });
+        }
+
+        /// <summary>
+        /// 设置窗口大小
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetWindowSize(int width, int height)
+        {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.Size = new Size(width, height);
+            });
+        }
+
+        /// <summary>
+        /// 获取窗口大小
+        /// </summary>
+        /// <returns> (width, height) => int</returns>
+        public (int, int) GetWindowSize()
+        {
+            int width = 0;
+            int height = 0;
+            return _form.InvokeIfRequired(() =>
+            {
+                width = _form.Width;
+                height = _form.Height;
+                return (width, height);
             });
         }
 
@@ -200,6 +234,7 @@
                 return func(arg);
             }
         }
+
     }
 
 }

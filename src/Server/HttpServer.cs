@@ -27,7 +27,7 @@ namespace Smudging.src.Server
         public static WinControls? CONTROLS = null;
 
         /// <summary>
-        /// 窗体控制对象
+        /// WebView 控制对象
         /// </summary>
         public static WebViewControls? WebControls = null;
 

@@ -165,8 +165,16 @@ namespace Smudging.src.Server
                     }
                 }
 
+                object? result = null;
+                try{
+                    // 调用 api 方法
+                    result = routeInfo.MethodInfo!.Invoke(routeInfo.Instance, methodArgs);
+                }catch(Exception e){
+                    return new ResponseBody(ResponseStatus.ERROR, null, e.Message);
+                }
+
                 // 调用方法
-                return routeInfo.MethodInfo!.Invoke(routeInfo.Instance, methodArgs)!;
+                return result!;
             }
             else
             {
