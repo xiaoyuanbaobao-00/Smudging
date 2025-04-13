@@ -84,7 +84,7 @@ namespace Smudging.src.Window
         /// <summary>
         /// 刷新页面
         /// </summary>
-        public void Reload()
+        public static void Reload()
         {
             WebView?.InvokeIfRequired(() =>
             {

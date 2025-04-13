@@ -90,7 +90,6 @@ namespace Smudging.src.entity
     // 路由信息
     public class RouteInfo
     {
-        public object? Instance { get; set; }
         public MethodInfo? MethodInfo { get; set; }
         public List<ParameterInfo>? Parameters { get; set; }
         public RequestMethod RequestMethod { get; set; }

@@ -15,7 +15,7 @@ namespace Smudging.src.Controller
         /// <param name="url"></param>
         /// <returns></returns>
         [ApiCustom("/source", RequestMethod.POST)]
-        public ResponseBody SetUrl(string url)
+        public static ResponseBody SetUrl(string url)
         {
             HttpServer.WebControls?.SetWebSource(url);
             return new ResponseBody();
@@ -26,9 +26,9 @@ namespace Smudging.src.Controller
         /// </summary>
         /// <returns></returns>
         [ApiCustom("/reload", RequestMethod.POST)]
-        public ResponseBody Reload()
+        public static ResponseBody Reload()
         {
-            HttpServer.WebControls?.Reload();
+            Window.WebViewControls.Reload();
             return new ResponseBody();
         }
 
@@ -37,7 +37,7 @@ namespace Smudging.src.Controller
         /// </summary>
         /// <returns></returns>
         [ApiCustom("/script", RequestMethod.POST)]
-        public ResponseBody ExecuteScriptAsync(string script)
+        public static ResponseBody ExecuteScriptAsync(string script)
         {
             HttpServer.WebControls?.ExecuteScriptAsync(script);
             return new ResponseBody();

@@ -31,6 +31,11 @@ namespace Smudging.src.Server
         /// </summary>
         public static WebViewControls? WebControls = null;
 
+        /// <summary>
+        /// 单例模式
+        /// </summary>
+        private static HttpServer? _instance;
+
         public HttpServer()
         {
             // 获取参数
@@ -42,6 +47,16 @@ namespace Smudging.src.Server
             // 创建监听
             listener = new HttpListener();
             listener.Prefixes.Add($"http://{address}:{port}/");
+        }
+
+        /// <summary>
+        /// 单例模式
+        /// </summary>
+        /// <returns></returns>
+        public static HttpServer Instance()
+        {
+            _instance ??= new HttpServer();
+            return _instance;
         }
 
         // 解析参数并获取端口
@@ -232,8 +247,12 @@ namespace Smudging.src.Server
             }
         }
 
-        // 返回响应
-        private static void ProcessResponse(HttpListenerResponse response, ResponseBody responseBody)
+        /// <summary>
+        /// 处理响应
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="responseBody"></param>
+        public static void ProcessResponse(HttpListenerResponse response, ResponseBody responseBody)
         {
             // 设置响应头和响应体
             response.StatusCode = responseBody.Code;

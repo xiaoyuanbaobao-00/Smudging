@@ -55,9 +55,9 @@ namespace App
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(webView);
-            WebViewControls.WebView = webView;
             Name = "Form1";
-            Text = "Form";
+            WebViewControls.WebView = webView;
+            StartPosition = FormStartPosition.CenterScreen;
             Load += Loading;
             ((System.ComponentModel.ISupportInitialize)webView).EndInit();
             ResumeLayout(false);
@@ -78,8 +78,7 @@ namespace App
 
             Task.Run(async () =>
             {
-                var server = new HttpServer();
-                await server.StartAsync();
+                await HttpServer.Instance().StartAsync();
             });
         }
     }

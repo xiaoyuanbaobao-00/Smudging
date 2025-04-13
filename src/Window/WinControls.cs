@@ -1,5 +1,9 @@
 ﻿namespace Smudging.src.Window
 {
+    /// <summary>
+    /// 用于控制窗体的行为
+    /// </summary>
+    /// <param name="form"></param>
     public class WinControls(Form form)
     {
         // 窗体
@@ -24,6 +28,17 @@
             _form.InvokeIfRequired(() =>
             {
                 _form.Hide();
+            });
+        }
+
+        /// <summary>
+        /// 关闭窗体
+        /// </summary>
+        public void Close()
+        {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.Close();
             });
         }
 
@@ -161,7 +176,7 @@
         /// <summary>
         /// 获取窗口大小
         /// </summary>
-        /// <returns> (width, height) => int</returns>
+        /// <returns> (width, height) => ValueTuple&lt;int, int&gt;?</returns>
         public (int, int) GetWindowSize()
         {
             int width = 0;
@@ -171,6 +186,52 @@
                 width = _form.Width;
                 height = _form.Height;
                 return (width, height);
+            });
+        }
+
+        /// <summary>
+        /// 设置窗口位置
+        /// </summary>
+        /// <param name="x">横坐标 int</param>
+        /// <param name="y">纵坐标</param>
+        public void SetPosition(int x, int y)
+        {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.Location = new Point(x, y);
+            });
+        }
+
+        /// <summary>
+        /// 获取窗口位置，x 横坐标，y 纵坐标
+        /// </summary>
+        /// <returns> (x, y) => ValueTuple&lt;int, int&gt;?</returns>
+        public (int, int) GetPosition() {
+            return _form.InvokeIfRequired(() =>
+            {
+                return (_form.Location.X, _form.Location.Y);
+            });
+        }
+
+        /// <summary>
+        /// 无边框
+        /// </summary>
+        public void CloseFormBorderStyle()
+        {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.FormBorderStyle = FormBorderStyle.None;
+            });
+        }
+
+        /// <summary>
+        /// 有边框
+        /// </summary>
+        public void OpenFormBorderStyle()
+        {
+            _form.InvokeIfRequired(() =>
+            {
+                _form.FormBorderStyle = FormBorderStyle.Sizable;
             });
         }
 

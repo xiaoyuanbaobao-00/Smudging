@@ -19,7 +19,6 @@ namespace Smudging.src.Server
 
         private ApiScanner()
         {
-            Console.WriteLine("开始扫描 ApiCustomAttribute 标注的类...");
             ScanApiCustomClass();
         }
 
@@ -57,17 +56,8 @@ namespace Smudging.src.Server
                     // 获取类的路径
                     string classPath = classAttribute.Path;
 
-                    // 检查类型是否有公共无参构造函数
-                    if (type.GetConstructor(Type.EmptyTypes) == null)
-                    {
-                        throw new InvalidOperationException($"类型 {type.FullName} 缺少公共无参构造函数。");
-                    }
-
-                    // 创建类的实例
-                    object instance = Activator.CreateInstance(type)!; // 使用 ! 运算符告知编译器此处不会为 null
-
-                    // 获取类的所有方法
-                    var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                    // 获取类的所有方法 Static
+                    var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
 
                     // 遍历类的所有方法，检查是否被 ApiCustomAttribute 修饰
                     foreach (var method in methods)
@@ -95,7 +85,6 @@ namespace Smudging.src.Server
                             // 创建 RouteInfo 对象
                             RouteInfo routeInfo = new()
                             {
-                                Instance = instance,
                                 MethodInfo = method,
                                 Parameters = parameterList,
                                 RequestMethod = requestMethod
@@ -165,12 +154,13 @@ namespace Smudging.src.Server
                     }
                 }
 
-                object? result = null;
-                try{
+                object? result;
+                try
+                {
                     // 调用 api 方法
-                    result = routeInfo.MethodInfo!.Invoke(routeInfo.Instance, methodArgs);
+                    result = routeInfo.MethodInfo!.Invoke(null, methodArgs);
                 }catch(TargetInvocationException e){    // 捕获异常
-                    string message = "";
+                    string message = "异常已被调用的目标抛出。";
                     if(e.InnerException != null) {
                         // 获取传播异常信息
                         message = e.InnerException.Message;
